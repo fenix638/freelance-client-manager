@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import { api } from "../../../lib/api.ts"
 import { motion } from "framer-motion"
+import type {ClientDTO} from "@fcm/types"
 
 export default function ClientsPage() {
-    const [clients, setClients] = useState([])
+    const [clients, setClients] = useState<ClientDTO[]>([])
 
     useEffect(() => {
         api.get("/clients").then((res) => setClients(res.data))

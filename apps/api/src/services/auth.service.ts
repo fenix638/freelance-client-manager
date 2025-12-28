@@ -1,8 +1,9 @@
 import { prisma } from "../lib/prisma"
 import { hashPassword, comparePassword } from "../lib/hash"
 import { signToken } from "../lib/jwt"
+import { AuthResponse } from "@fcm/types"
 
-export async function register(email: string, password: string) {
+export async function register(email: string, password: string): Promise<AuthResponse> {
     const existing = await prisma.user.findUnique({ where: { email } })
     if (existing) throw new Error("Email already in use")
 
@@ -12,9 +13,10 @@ export async function register(email: string, password: string) {
         data: { email, password: hashed }
     })
 
-    const token = signToken({ id: user.id })
-
-    return { user, token }
+    return {
+        user: { id: user.id, email: user.email },
+        token: signToken({ id: user.id })
+    }
 }
 
 export async function login(email: string, password: string) {

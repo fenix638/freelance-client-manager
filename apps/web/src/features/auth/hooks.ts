@@ -10,7 +10,7 @@ export function useAuth() {
     async function login(email: string, password: string) {
         setLoading(true)
         try {
-            const { token } = await authApi.login(email, password)
+            const { token } = await authApi.login({ email, password })
             setToken(token)
             navigate("/clients")
         } finally {
