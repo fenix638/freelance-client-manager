@@ -15,7 +15,16 @@ export default function FooterLayout() {
 
                 <motion.div variants={item}>
                     <h3 className="text-xl font-semibold text-white">
-                        Freelance<span className="text-sky-500">Manager</span>
+                        {/* Logo */}
+                        <motion.a
+                            href="/"
+                            initial={{ opacity: 0, y: -6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.35, ease: "easeOut" }}
+                            className="text-lg font-semibold text-white tracking-tight"
+                        >
+                            Freelance<span className="text-sky-500">Manager</span>
+                        </motion.a>
                     </h3>
                     <p className="mt-4 text-sm text-slate-400 leading-relaxed">
                         Manage clients, projects, and invoices in one clean and simple platform built for freelancers.

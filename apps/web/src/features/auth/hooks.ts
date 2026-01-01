@@ -12,7 +12,18 @@ export function useAuth() {
         try {
             const { token } = await authApi.login({ email, password })
             setToken(token)
-            navigate("/clients")
+            navigate("/dashboard")
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    async function register(email: string, password: string) {
+        setLoading(true)
+        try {
+            const { token } = await authApi.register({ email, password })
+            setToken(token)
+            navigate("/login")
         } finally {
             setLoading(false)
         }
@@ -23,5 +34,5 @@ export function useAuth() {
         navigate("/login")
     }
 
-    return { login, logout, loading }
+    return { login, logout, loading, register }
 }

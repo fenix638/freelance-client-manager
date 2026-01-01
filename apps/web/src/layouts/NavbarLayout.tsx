@@ -1,10 +1,13 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {Link} from "react-router-dom";
+import {getToken} from "../lib/storage.ts";
+import {useAuth} from "../features/auth/hooks.ts";
 
 export default function Navbar() {
     const [open, setOpen] = useState(false)
-
+    const token = getToken();
+    const { logout } = useAuth()
     return (
         <header className="sticky top-0 z-50">
             {/* Top bar */}
@@ -13,7 +16,16 @@ export default function Navbar() {
 
                     {/* Logo */}
                     <div className="text-lg font-semibold text-slate-900">
-                        Freelance<span className="text-sky-500">Manager</span>
+                        {/* Logo */}
+                        <motion.a
+                            href="/"
+                            initial={{ opacity: 0, y: -6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.35, ease: "easeOut" }}
+                            className="text-lg font-semibold text-slate-900 tracking-tight"
+                        >
+                            Freelance<span className="text-sky-500">Manager</span>
+                        </motion.a>
                     </div>
 
                     {/* Desktop nav */}
@@ -34,15 +46,50 @@ export default function Navbar() {
 
                     {/* Desktop CTA */}
                     <div className="hidden md:block">
-                        <Link to="/register">
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
+                        { token ? (
+                            <>
+                                <Link to="/dashboard">
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.97 }}
+                                        className="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm"
+                                    >
+                                        Dashboard
+                                    </motion.button>
+                                </Link>
+                                <Link to="/">
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.97 }}
+                                        className="bg-sky-500 text-white px-4 py-2 rounded-lg text-sm pa-2 ml-2"
+                                        onClick={logout}
+                                    >
+                                        Logout
+                                    </motion.button>
+                                </Link>
+                            </>
+                            ) : (
+                            <>
+                                <Link to="/register">
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.97 }}
+                                        className="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm"
+                                    >
+                                        Get Started
+                                    </motion.button>
+                                </Link>
+                                <Link to="/login">
+                                    <motion.button
+                                    whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.97 }}
-                                className="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm"
-                            >
-                                Get Started
-                            </motion.button>
-                        </Link>
+                                className="bg-sky-500 text-white px-4 py-2 rounded-lg text-sm pa-2 ml-2"
+                                    >
+                                Login
+                                    </motion.button>
+                                </Link>
+                            </>)}
+
                     </div>
 
                     {/* Mobile burger */}
@@ -87,7 +134,16 @@ export default function Navbar() {
                         >
                             <div className="flex items-center justify-between mb-6">
                                 <div className="text-lg font-semibold text-slate-900">
-                                    Freelance<span className="text-sky-500">Manager</span>
+                                    {/* Logo */}
+                                    <motion.a
+                                        href="/"
+                                        initial={{ opacity: 0, y: -6 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.35, ease: "easeOut" }}
+                                        className="text-lg font-semibold text-slate-900 tracking-tight"
+                                    >
+                                        Freelance<span className="text-sky-500">Manager</span>
+                                    </motion.a>
                                 </div>
 
                                 <button
@@ -116,6 +172,14 @@ export default function Navbar() {
                                     className="mt-6 w-full bg-slate-900 text-white py-3 rounded-xl text-sm hover:text-sky-500"
                                 >
                                     Get Started
+                                </motion.button>
+                            </Link>
+                            <Link to="/register">
+                                <motion.button
+                                    whileTap={{ scale: 0.97 }}
+                                    className="mt-6 w-full bg-sky-500 text-white py-3 rounded-xl text-sm hover:text-slate-900"
+                                >
+                                    Login
                                 </motion.button>
                             </Link>
                         </motion.div>
